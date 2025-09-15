@@ -1,5 +1,5 @@
 import "./globals.css";
-import Sidebar from '@/components/Sidebar';
+import Sidebar from "@/components/Sidebar";
 
 export default function RootLayout({
   children,
@@ -8,10 +8,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
-        <div className="min-h-screen flex">
-          <aside className="w-20 md:w-64 bg-gray-100"><Sidebar /></aside>
-
+      <body className="min-h-screen m-0 p-0">
+        <div className="flex h-screen">
+          <aside className="w-20 md:w-42 bg-gray-100">
+            <Sidebar />
+          </aside>
           <main className="flex-1 p-6">{children}</main>
         </div>
       </body>
