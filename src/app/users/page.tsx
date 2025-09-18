@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type Hero = {
   id: number;
@@ -9,26 +9,25 @@ export type Hero = {
   discription: string;
 };
 
-const heroesArr: Hero[] = [
-  {
-    id: 1,
-    name: "Peter Pen",
-    discription: "Story anout boy called Peter Pen",
-  },
-  {
-    id: 2,
-    name: "Harry Poter",
-    discription: "Story anout boy called Peter Pen",
-  },
-  {
-    id: 3,
-    name: "Peter Pen",
-    discription: "Story anout boy called Peter Pen",
-  },
-];
-
 export default function UsersPage() {
-  const [heroes, setHeroes] = useState<Hero[]>(heroesArr);
+  const [heroes, setHeroes] = useState<Hero[]>([]);
+
+  useEffect(() => {
+    const data = localStorage.getItem("heroes");
+
+    if (data) {
+      try {
+        setHeroes(JSON.parse(data));
+      } catch (e) {
+        console.error("Error of parse heroes:", e);
+        localStorage.removeItem("heroes");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("heroes", JSON.stringify(heroes));
+  }, [heroes]);
 
   const addHero = () => {
     const newHero: Hero = {
