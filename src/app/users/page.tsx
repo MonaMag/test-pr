@@ -1,5 +1,6 @@
 "use client";
 
+import ChevronRightIcon from "@/components/icons/ChevronRightIcon";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -53,12 +54,15 @@ export default function UsersPage() {
       <ul>
         {heroes.map((hero) => (
           <li key={hero.id} className="border-b p-2 rounded hover:bg-gray-100">
-            <Link href={`/users/${hero.id}`}>
-              <div>
+            <div className="flex justify-between items-center">
+              <div className="flex flex-col">
                 <h3 className="text-xl">{hero.name}</h3>
                 <span className="text-sm">{hero.discription}</span>
               </div>
-            </Link>
+              <Link href={`/users/${hero.id}`}>
+                <ChevronRightIcon className="w-6 h-6 hover:text-blue-500" />
+              </Link>
+            </div>
           </li>
         ))}
       </ul>
