@@ -43,7 +43,7 @@ export default function EditHeroPage() {
 
   return (
     <div className="w-72 space-y-4">
-      <h1 className="text-2xl font-bold">name</h1>
+      <h1 className="text-2xl font-bold">{hero.name}</h1>
 
       <div>
         <label className="block">name</label>

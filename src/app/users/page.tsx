@@ -12,6 +12,9 @@ export type Hero = {
 
 export default function UsersPage() {
   const [heroes, setHeroes] = useState<Hero[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newDiscription, setNewDiscription] = useState("");
 
   useEffect(() => {
     const data = localStorage.getItem("heroes");
@@ -33,10 +36,13 @@ export default function UsersPage() {
   const addHero = () => {
     const newHero: Hero = {
       id: Date.now(),
-      name: "Name",
-      discription: "Discription",
+      name: newName,
+      discription: newDiscription,
     };
     setHeroes([...heroes, newHero]);
+    setNewName("");
+    setNewDiscription("");
+    setIsModalOpen(false);
   };
 
   return (
@@ -44,7 +50,7 @@ export default function UsersPage() {
       <div className="flex justify-between mb-6">
         <h1 className="text-3xl font-bold">Users</h1>
         <button
-          onClick={addHero}
+          onClick={() => setIsModalOpen(true)}
           className="px-6 py-2 bg-blue-500 text-white rounded"
         >
           Add
@@ -66,6 +72,45 @@ export default function UsersPage() {
           </li>
         ))}
       </ul>
+
+      {isModalOpen && (
+        <div className="fixed inset-0  bg-[rgba(0,0,0,0.5)] flex items-center justify-center z-10">
+          <div className="bg-white p-6 rounded shadow-lg w-80">
+            <h2 className="text-xl font-bold mb-4">Add hero</h2>
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Name"
+              className="w-full border rounded p-2 mb-2"
+            />
+            <textarea
+              value={newDiscription}
+              onChange={(e) => setNewDiscription(e.target.value)}
+              placeholder="Discription"
+              className="w-full border rounded p-2 mb-4"
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setNewName("");
+                  setNewDiscription("");
+                }}
+                className="px-4 py-2 border rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={addHero}
+                className="px-4 py-2 bg-blue-500 text-white rounded"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
