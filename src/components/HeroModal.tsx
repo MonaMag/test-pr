@@ -1,12 +1,11 @@
 import { useState } from "react";
 
 type HeroModalProps = {
-  isOpen: boolean;
   onClose: () => void;
   onSave: (name: string, description: string) => void;
 };
 
-export default function HeroModal({ isOpen, onClose, onSave }: HeroModalProps) {
+export default function HeroModal({ onClose, onSave }: HeroModalProps) {
   const [name, setName] = useState("");
   const [e, setDescription] = useState("");
 
@@ -15,8 +14,6 @@ export default function HeroModal({ isOpen, onClose, onSave }: HeroModalProps) {
     setName("");
     setDescription("");
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50">

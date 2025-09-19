@@ -63,11 +63,12 @@ export default function UsersPage() {
         ))}
       </ul>
 
-      <HeroModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveHero}
-      />
+      {isModalOpen && (
+        <HeroModal
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSaveHero}
+        />
+      )}
     </div>
   );
 }
