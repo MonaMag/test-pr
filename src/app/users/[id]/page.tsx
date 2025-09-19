@@ -2,41 +2,64 @@
 
 import { Hero } from "@/types/hero";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function EditHeroPage() {
   const { id } = useParams();
   const heroId = Number(id);
   const router = useRouter();
 
-  const [heroes, setHeroes] = useState<Hero[]>([]);
-  const [hero, setHero] = useState<Hero | null>(null);
-
-  useEffect(() => {
-    const data = localStorage.getItem("heroes");
-    if (data) {
-      const parsedHeroes: Hero[] = JSON.parse(data);
-      setHeroes(parsedHeroes);
-
-      const currentHero = parsedHeroes.find((h) => h.id === heroId);
-      if (currentHero) {
-        setHero(currentHero);
+  const [hero, setHero] = useState<Hero | null>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const data = localStorage.getItem("heroes");
+        if (data) {
+          const parsed: Hero[] = JSON.parse(data);
+          return parsed.find((h) => h.id === heroId) || null;
+        }
+      } catch (e) {
+        console.error("Error parsing heroes:", e);
       }
     }
-  }, [heroId]);
+    return null;
+  });
 
-  const handleSave = () => {
+  const handleChange = (field: keyof Hero, value: string) => {
+    setHero((prev) => (prev ? { ...prev, [field]: value } : prev));
+  };
+
+    const handleSave = () => {
     if (!hero) return;
 
-    const updatedHeroes = heroes.map((h) => (h.id === hero.id ? hero : h));
-    localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
-    router.push("/users");
+    try {
+      const data = localStorage.getItem("heroes");
+      const heroes: Hero[] = data ? JSON.parse(data) : [];
+
+      const updatedHeroes = heroes.map((h) => (h.id === hero.id ? hero : h));
+      localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
+
+      router.push("/users");
+    } catch (e) {
+      console.error("Error saving hero:", e);
+    }
   };
 
   const handleDelete = () => {
-    const updatedHeroes = heroes.filter((h) => h.id !== heroId);
-    localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
-    router.push("/users");
+    if (!hero) return;
+
+    if (!window.confirm(`Delete hero "${hero.name}"?`)) return;
+
+    try {
+      const data = localStorage.getItem("heroes");
+      const heroes: Hero[] = data ? JSON.parse(data) : [];
+
+      const updatedHeroes = heroes.filter((h) => h.id !== heroId);
+      localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
+
+      router.push("/users");
+    } catch (e) {
+      console.error("Error deleting hero:", e);
+    }
   };
 
   if (!hero) return <p>Hero not found</p>;
@@ -50,7 +73,7 @@ export default function EditHeroPage() {
         <input
           className="border p-1 rounded w-full"
           value={hero.name}
-          onChange={(e) => setHero({ ...hero, name: e.target.value })}
+          onChange={(e) => handleChange("name", e.target.value)}
         />
       </div>
 
@@ -59,7 +82,7 @@ export default function EditHeroPage() {
         <textarea
           className="border p-1 rounded w-full"
           value={hero.discription}
-          onChange={(e) => setHero({ ...hero, discription: e.target.value })}
+          onChange={(e) => handleChange("discription", e.target.value)}
         />
       </div>
 

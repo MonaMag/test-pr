@@ -7,28 +7,30 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function UsersPage() {
-  const [heroes, setHeroes] = useState<Hero[]>([]);
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const data = localStorage.getItem("heroes");
-
-    if (data) {
-      try {
-        setHeroes(JSON.parse(data));
-      } catch (e) {
-        console.error("Error of parse heroes:", e);
-        localStorage.removeItem("heroes");
+  const [heroes, setHeroes] = useState<Hero[]>(() => {
+    if (typeof window !== "undefined") {
+      const data = localStorage.getItem("heroes");
+      if (data) {
+        try {
+          return JSON.parse(data) as Hero[];
+        } catch (e) {
+          console.error("Error parsing heroes:", e);
+          localStorage.removeItem("heroes");
+        }
       }
     }
-  }, []);
+    return [];
+  });
 
   useEffect(() => {
     localStorage.setItem("heroes", JSON.stringify(heroes));
+    console.log("2:", heroes);
   }, [heroes]);
 
   const handleSaveHero = (name: string, discription: string) => {
-    const newHero: Hero = { id: Date.now(), name, discription: discription };
+    const newHero: Hero = { id: Date.now(), name, discription };
     setHeroes([...heroes, newHero]);
     setIsModalOpen(false);
   };
