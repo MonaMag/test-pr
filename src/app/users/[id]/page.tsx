@@ -1,13 +1,13 @@
 "use client";
 
-import { useParams} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Hero } from "../page";
 
-export default function HeroPage() {
+export default function EditHeroPage() {
   const { id } = useParams();
   const heroId = Number(id);
- 
+  const router = useRouter();
 
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const [hero, setHero] = useState<Hero | null>(null);
@@ -24,6 +24,20 @@ export default function HeroPage() {
       }
     }
   }, [heroId]);
+
+  const handleSave = () => {
+    if (!hero) return;
+
+    const updatedHeroes = heroes.map((h) => (h.id === hero.id ? hero : h));
+    localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
+    router.push("/users");
+  };
+
+  const handleDelete = () => {
+    const updatedHeroes = heroes.filter((h) => h.id !== heroId);
+    localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
+    router.push("/users");
+  };
 
   if (!hero) return <p>Hero not found</p>;
 
@@ -51,13 +65,13 @@ export default function HeroPage() {
 
       <button
         className="px-4 py-2 mr-2 border-1 border-blue-500 text-blue-500 rounded"
-        onClick={() => console.log("DELETE")}
+        onClick={handleDelete}
       >
         Delete
       </button>
       <button
         className="px-4 py-2 bg-blue-500 text-white rounded"
-        onClick={() => console.log("SAVE")}
+        onClick={handleSave}
       >
         Save
       </button>
