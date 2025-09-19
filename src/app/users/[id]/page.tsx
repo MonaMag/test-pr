@@ -1,6 +1,7 @@
 "use client";
 
 import { Modal } from "@/components/Modal";
+import { getHeroesFromStorage, saveHeroesToStorage } from "@/functions/storage";
 import { Hero } from "@/types/hero";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,18 +13,8 @@ export default function EditHeroPage() {
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [hero, setHero] = useState<Hero | null>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const data = localStorage.getItem("heroes");
-        if (data) {
-          const parsed: Hero[] = JSON.parse(data);
-          return parsed.find((h) => h.id === heroId) || null;
-        }
-      } catch (e) {
-        console.error("Error parsing heroes:", e);
-      }
-    }
-    return null;
+    const heroes = getHeroesFromStorage();
+    return heroes.find((h) => h.id === heroId) || null;
   });
 
   const handleChange = (field: keyof Hero, value: string) => {
@@ -33,33 +24,21 @@ export default function EditHeroPage() {
   const handleSave = () => {
     if (!hero) return;
 
-    try {
-      const data = localStorage.getItem("heroes");
-      const heroes: Hero[] = data ? JSON.parse(data) : [];
+    const heroes = getHeroesFromStorage();
+    const updatedHeroes = heroes.map((h) => (h.id === hero.id ? hero : h));
+    saveHeroesToStorage(updatedHeroes);
 
-      const updatedHeroes = heroes.map((h) => (h.id === hero.id ? hero : h));
-      localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
-
-      router.push("/users");
-    } catch (e) {
-      console.error("Error saving hero:", e);
-    }
+    router.push("/users");
   };
 
   const handleDeleteHero = () => {
     if (!hero) return;
 
-    try {
-      const data = localStorage.getItem("heroes");
-      const heroes: Hero[] = data ? JSON.parse(data) : [];
+    const heroes = getHeroesFromStorage();
+    const updatedHeroes = heroes.filter((h) => h.id !== heroId);
+    saveHeroesToStorage(updatedHeroes);
 
-      const updatedHeroes = heroes.filter((h) => h.id !== heroId);
-      localStorage.setItem("heroes", JSON.stringify(updatedHeroes));
-
-      router.push("/users");
-    } catch (e) {
-      console.error("Error deleting hero:", e);
-    }
+    router.push("/users");
   };
 
   if (!hero) return <p>Hero not found</p>;
@@ -99,6 +78,7 @@ export default function EditHeroPage() {
       >
         Save
       </button>
+
       {isConfirmOpen && (
         <Modal
           title="Delete Hero"

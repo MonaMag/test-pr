@@ -2,30 +2,17 @@
 
 import HeroModal from "@/components/HeroModal";
 import ChevronRightIcon from "@/components/icons/ChevronRightIcon";
+import { getHeroesFromStorage, saveHeroesToStorage } from "@/functions/storage";
 import { Hero } from "@/types/hero";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function UsersPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [heroes, setHeroes] = useState<Hero[]>(() => {
-    if (typeof window !== "undefined") {
-      const data = localStorage.getItem("heroes");
-      if (data) {
-        try {
-          return JSON.parse(data) as Hero[];
-        } catch (e) {
-          console.error("Error parsing heroes:", e);
-          localStorage.removeItem("heroes");
-        }
-      }
-    }
-    return [];
-  });
+  const [heroes, setHeroes] = useState<Hero[]>(getHeroesFromStorage());
 
   useEffect(() => {
-    localStorage.setItem("heroes", JSON.stringify(heroes));
-    console.log("2:", heroes);
+    saveHeroesToStorage(heroes)
   }, [heroes]);
 
   const handleSaveHero = (name: string, description: string) => {
