@@ -1,5 +1,5 @@
 export type Hero = {
   id: number;
   name: string;
-  discription: string;
+  description: string;
 };

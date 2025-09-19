@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function UsersPage() {
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [heroes, setHeroes] = useState<Hero[]>(() => {
     if (typeof window !== "undefined") {
@@ -29,8 +28,8 @@ export default function UsersPage() {
     console.log("2:", heroes);
   }, [heroes]);
 
-  const handleSaveHero = (name: string, discription: string) => {
-    const newHero: Hero = { id: Date.now(), name, discription };
+  const handleSaveHero = (name: string, description: string) => {
+    const newHero: Hero = { id: Date.now(), name, description };
     setHeroes([...heroes, newHero]);
     setIsModalOpen(false);
   };
@@ -49,16 +48,17 @@ export default function UsersPage() {
 
       <ul>
         {heroes.map((hero) => (
-          <li key={hero.id} className="border-b p-2 rounded hover:bg-gray-100">
-            <div className="flex justify-between items-center">
+          <li key={hero.id} className="border-b rounded hover:bg-gray-100">
+            <Link
+              href={`/users/${hero.id}`}
+              className="flex justify-between items-center p-2 w-full"
+            >
               <div className="flex flex-col">
                 <h3 className="text-xl">{hero.name}</h3>
-                <span className="text-sm">{hero.discription}</span>
+                <span className="text-sm">{hero.description}</span>
               </div>
-              <Link href={`/users/${hero.id}`}>
-                <ChevronRightIcon className="w-6 h-6 hover:text-blue-500" />
-              </Link>
-            </div>
+              <ChevronRightIcon className="w-6 h-6" />
+            </Link>
           </li>
         ))}
       </ul>

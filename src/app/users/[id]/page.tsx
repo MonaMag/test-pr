@@ -28,7 +28,7 @@ export default function EditHeroPage() {
     setHero((prev) => (prev ? { ...prev, [field]: value } : prev));
   };
 
-    const handleSave = () => {
+  const handleSave = () => {
     if (!hero) return;
 
     try {
@@ -78,11 +78,11 @@ export default function EditHeroPage() {
       </div>
 
       <div>
-        <label className="block">discription</label>
+        <label className="block">description</label>
         <textarea
           className="border p-1 rounded w-full"
-          value={hero.discription}
-          onChange={(e) => handleChange("discription", e.target.value)}
+          value={hero.description}
+          onChange={(e) => handleChange("description", e.target.value)}
         />
       </div>
 
