@@ -1,8 +1,8 @@
 "use client";
 
+import { Hero } from "@/types/hero";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Hero } from "../page";
 
 export default function EditHeroPage() {
   const { id } = useParams();
