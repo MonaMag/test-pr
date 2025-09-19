@@ -1,5 +1,6 @@
 "use client";
 
+import { Modal } from "@/components/Modal";
 import { Hero } from "@/types/hero";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,6 +10,7 @@ export default function EditHeroPage() {
   const heroId = Number(id);
   const router = useRouter();
 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [hero, setHero] = useState<Hero | null>(() => {
     if (typeof window !== "undefined") {
       try {
@@ -44,10 +46,8 @@ export default function EditHeroPage() {
     }
   };
 
-  const handleDelete = () => {
+  const handleDeleteHero = () => {
     if (!hero) return;
-
-    if (!window.confirm(`Delete hero "${hero.name}"?`)) return;
 
     try {
       const data = localStorage.getItem("heroes");
@@ -88,16 +88,40 @@ export default function EditHeroPage() {
 
       <button
         className="px-4 py-2 mr-2 border-1 border-blue-500 text-blue-500 rounded"
-        onClick={handleDelete}
+        onClick={() => setIsConfirmOpen(true)}
       >
         Delete
       </button>
+
       <button
         className="px-4 py-2 bg-blue-500 text-white rounded"
         onClick={handleSave}
       >
         Save
       </button>
+      {isConfirmOpen && (
+        <Modal
+          title="Delete Hero"
+          actions={
+            <>
+              <button
+                onClick={() => setIsConfirmOpen(false)}
+                className="px-4 py-2 border rounded"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteHero}
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Delete
+              </button>
+            </>
+          }
+        >
+          <p>Are you sure you want to delete {hero.name}?</p>
+        </Modal>
+      )}
     </div>
   );
 }
