@@ -1,7 +1,7 @@
 export default function countCharacters(str: string) {
-  let result: Record<string, number> = {};
+  const result: Record<string, number> = {};
 
-  for (let char of str) {
+  for (const char of str) {
     if (result[char]) {
       result[char]++;       
     } else {

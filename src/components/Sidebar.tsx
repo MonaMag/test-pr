@@ -3,23 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HomeIcon from "./icons/HomeIcon";
-import AboutIcon from "./icons/AboutIcon";
 import UserIcon from "./icons/UserIcon";
-import StatisticsIcon from "./icons/StatisticsIcon";
 import SettingsIcon from "./icons/SettingsIcon";
 
 const links = [
   { href: "/", label: "Home", icon: <HomeIcon className="w-6 h-6" /> },
-  { href: "/about", label: "About", icon: <AboutIcon className="w-6 h-6" /> },
-  { href: "/user", label: "User", icon: <UserIcon className="w-6 h-6" /> },
+  { href: "/users", label: "Users", icon: <UserIcon className="w-6 h-6" /> },
   {
-    href: "/statistics",
-    label: "Statistics",
-    icon: <StatisticsIcon className="w-6 h-6" />,
-  },
-  {
-    href: "/settings",
-    label: "Settings",
+    href: "/projects",
+    label: "Projects",
     icon: <SettingsIcon className="w-6 h-6" />,
   },
 ];
