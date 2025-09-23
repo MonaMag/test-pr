@@ -27,7 +27,7 @@ export default function UsersPage() {
         <h1 className="text-3xl font-bold">Users</h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-6 py-2 bg-blue-500 text-white rounded"
+          className="px-6 py-2 bg-blue-500 text-white rounded cursor-pointer"
         >
           Add
         </button>
