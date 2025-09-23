@@ -86,13 +86,13 @@ export default function EditHeroPage() {
             <>
               <button
                 onClick={() => setIsConfirmOpen(false)}
-                className="px-4 py-2 border rounded"
+                className="px-4 py-2 border rounded cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteHero}
-                className="px-4 py-2 bg-red-500 text-white rounded"
+                className="px-4 py-2 bg-red-500 text-white rounded cursor-pointer"
               >
                 Delete
               </button>

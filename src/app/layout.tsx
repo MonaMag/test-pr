@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen m-0 p-0">
-        <div className="flex h-screen">
+        <div className="flex">
           <aside className="w-20 md:w-60 bg-slate-200">
             <Sidebar />
           </aside>

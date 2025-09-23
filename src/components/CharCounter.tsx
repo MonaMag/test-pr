@@ -21,7 +21,7 @@ export default function CharCounter() {
       />
       <button
         onClick={handleCount}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
+        className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
       >
         Посчитать
       </button>
