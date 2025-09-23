@@ -15,5 +15,5 @@ export default function locateApartment(
   let positionOnFloor = localNumber % apartmentsPerFloor;
   if (positionOnFloor === 0) positionOnFloor = apartmentsPerFloor;
 
-  return { entrance, floor, positionOnFloor, localNumber };
+  return { entrance, floor, positionOnFloor };
 }
