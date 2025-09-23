@@ -17,10 +17,11 @@ export default function SearchAppartment() {
 
     if (![a, f, n].every(isPositiveInteger)) {
       setResult({ error: "Введите корректные целые числа больше 0" });
+      return;
     }
 
     setResult(locateApartment(a, f, n));
-    return;
+    //return;
   };
 
   return (
