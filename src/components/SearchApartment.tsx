@@ -9,19 +9,16 @@ export default function SearchAppartment() {
   const [apartmentNumber, setApartmentNumber] = useState("");
   const [result, setResult] = useState<Record<string, number | string>>({});
 
+  function isPositiveInteger(n: number) {
+    return Number.isInteger(n) && n > 0;
+  }
+
   const handleSearch = () => {
     const a = Number(apartmentsPerFloor);
     const f = Number(floorsPerEntrance);
     const n = Number(apartmentNumber);
 
-    if (
-      !Number.isInteger(a) ||
-      !Number.isInteger(f) ||
-      !Number.isInteger(n) ||
-      a >= 0 ||
-      f >= 0 ||
-      n >= 0
-    ) {
+    if (![a, f, n].every(isPositiveInteger)) {
       setResult({error: "Введите корректные целые числа больше 0"})
     }
 
