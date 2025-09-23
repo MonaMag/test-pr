@@ -14,6 +14,17 @@ export default function SearchAppartment() {
     const f = Number(floorsPerEntrance);
     const n = Number(apartmentNumber);
 
+    if (
+      !Number.isInteger(a) ||
+      !Number.isInteger(f) ||
+      !Number.isInteger(n) ||
+      a >= 0 ||
+      f >= 0 ||
+      n >= 0
+    ) {
+      setResult({error: "Введите корректные целые числа больше 0"})
+    }
+
     setResult(locateApartment(a, f, n));
     return;
   };
