@@ -2,6 +2,7 @@
 import { useState } from "react";
 import ProjectLayout from "./ProjectLayout";
 import locateApartment from "@/functions/getLocateApartment";
+import isPositiveInteger from "@/functions/isPositiveInteger";
 
 export default function SearchAppartment() {
   const [apartmentsPerFloor, setApartmentsPerFloor] = useState("");
@@ -9,17 +10,13 @@ export default function SearchAppartment() {
   const [apartmentNumber, setApartmentNumber] = useState("");
   const [result, setResult] = useState<Record<string, number | string>>({});
 
-  function isPositiveInteger(n: number) {
-    return Number.isInteger(n) && n > 0;
-  }
-
   const handleSearch = () => {
     const a = Number(apartmentsPerFloor);
     const f = Number(floorsPerEntrance);
     const n = Number(apartmentNumber);
 
     if (![a, f, n].every(isPositiveInteger)) {
-      setResult({error: "Введите корректные целые числа больше 0"})
+      setResult({ error: "Введите корректные целые числа больше 0" });
     }
 
     setResult(locateApartment(a, f, n));
