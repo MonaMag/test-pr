@@ -1,5 +1,6 @@
 "use client";
 
+import CharacterSearch from "@/components/CharacterSearch";
 import HeroModal from "@/components/HeroModal";
 import ChevronRightIcon from "@/components/icons/ChevronRightIcon";
 import { getHeroesFromStorage, saveHeroesToStorage } from "@/functions/storage";
@@ -12,7 +13,7 @@ export default function UsersPage() {
   const [heroes, setHeroes] = useState<Hero[]>(getHeroesFromStorage());
 
   useEffect(() => {
-    saveHeroesToStorage(heroes)
+    saveHeroesToStorage(heroes);
   }, [heroes]);
 
   const handleSaveHero = (name: string, description: string) => {
@@ -22,18 +23,19 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="flex flex-col w-lg">
-      <div className="flex justify-between mb-6">
-        <h1 className="text-3xl font-bold">Users</h1>
+    <div className="flex flex-col w-full">
+      <h1 className="text-3xl font-bold">Users</h1>
+      <CharacterSearch onSelect={(hero) => setHeroes([...heroes, hero])} />
+      <div className="mb-4 flex gap-2">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="px-6 py-2 bg-blue-500 text-white rounded cursor-pointer"
+          className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
         >
           Add
         </button>
       </div>
 
-      <ul>
+      <ul className="mb-6">
         {heroes.map((hero) => (
           <li key={hero.id} className="border-b rounded hover:bg-gray-100">
             <Link
