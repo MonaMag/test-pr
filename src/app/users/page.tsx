@@ -26,7 +26,7 @@ export default function UsersPage() {
     <div className="flex flex-col w-full">
       <h1 className="text-3xl font-bold">Users</h1>
       <CharacterSearch onSelect={(hero) => setHeroes([...heroes, hero])} />
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 mt-4 flex gap-2">
         <button
           onClick={() => setIsModalOpen(true)}
           className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
@@ -37,7 +37,7 @@ export default function UsersPage() {
 
       <ul className="mb-6">
         {heroes.map((hero) => (
-          <li key={hero.id} className="border-b rounded hover:bg-gray-100">
+          <li key={hero.id} className="flex justify-center border-b rounded hover:bg-gray-100 min-h-16">
             <Link
               href={`/users/${hero.id}`}
               className="flex justify-between items-center p-2 w-full"
