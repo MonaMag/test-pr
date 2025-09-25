@@ -27,12 +27,23 @@ export function BinarySearchTask() {
     setResult({});
   };
 
-  function binarySearch() {
+  function binarySearch(arr: number[], num: number) {
     setResult({});
+    return { position: 2, step: 4 };
   }
 
   function handleSearch() {
-    setResult({});
+    if (array.length === 0) {
+      setResult({ error: "Сначала сгенерируйте массив" });
+      return;
+    }
+    const n = parseInt(searchNumber, 10);
+    if (!Number.isInteger(n) || n < 0 || n > 100) {
+      setResult({ error: "Введите целое число в диапазоне 0..100" });
+      return;
+    }
+
+    setResult(binarySearch(array, n));
   }
 
   return (
