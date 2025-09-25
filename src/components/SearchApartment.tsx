@@ -21,7 +21,6 @@ export default function SearchAppartment() {
     }
 
     setResult(locateApartment(a, f, n));
-    //return;
   };
 
   return (
