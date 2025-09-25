@@ -26,14 +26,16 @@ export default function CharacterSearch({ onSelect }: CharacterSearchProps) {
       const res = await fetch("https://hp-api.onrender.com/api/characters");
       const data: Character[] = await res.json();
 
+      const normalizedSearch = searchInput.toLowerCase();
+
       const filtered: Hero[] = data
-        .filter((car) =>
-          car.name.toLowerCase().includes(searchInput.toLowerCase())
+        .filter((ch) =>
+          ch.name.toLowerCase().includes(normalizedSearch)
         )
-        .map((car) => ({
+        .map((ch) => ({
           id: Date.now() + Math.random(),
-          name: car.name,
-          description: car.house || "",
+          name: ch.name,
+          description: ch.house || "",
         }));
 
       setOptions(filtered);
