@@ -1,18 +1,38 @@
 import { useState } from "react";
 import ProjectLayout from "./ProjectLayout";
 
+const MAX_LENGTH = 20;
+
 export function BinarySearchTask() {
-  const [length, setLength] = useState<number>(0);
+  const [length, setLength] = useState<string>("");
   const [array, setArray] = useState<number[]>([]);
   const [searchNumber, setSearchNumber] = useState<string>("");
-  const [result, setResult] = useState<Record<string, number>>({});
+  const [result, setResult] = useState<Record<string, number | string>>({});
 
   const generateArray = () => {
-    setArray([1, 2, 4, 6]);
+    const n = parseInt(length, 10);
+    if (!Number.isInteger(n) || n <= 0) {
+      setResult({ error: "Введите корректное целое число больше 0" });
+      return;
+    }
+    if (n > MAX_LENGTH) {
+      setResult({ error: `Максимальная длина массива — ${MAX_LENGTH}` });
+      return;
+    }
+
+    const sortArray = Array.from({ length: n }, () =>
+      Math.floor(Math.random() * 101)
+    ).sort((a, b) => a - b);
+    setArray(sortArray);
+    setResult({});
   };
 
   function binarySearch() {
-    setResult({a: 1, b: 2});
+    setResult({});
+  }
+
+  function handleSearch() {
+    setResult({});
   }
 
   return (
@@ -23,7 +43,7 @@ export function BinarySearchTask() {
           type="number"
           value={length}
           className="border rounded p-2 w-full mb-2"
-          onChange={(e) => setLength(Number(e.currentTarget.value))}
+          onChange={(e) => setLength(e.currentTarget.value)}
         />
         <button
           onClick={generateArray}
@@ -32,14 +52,18 @@ export function BinarySearchTask() {
           Сгененрировать массив
         </button>
       </div>
-      <div>
-        <p className="mb-1">Отсортированный массив</p>
-        {array.map((num, index) => (
-          <span key={index} className="px-2 py-1 ml-1 bg-gray-200 rounded">
-            {num}
-          </span>
-        ))}
-      </div>
+      {array.length > 0 && (
+        <div>
+          <p className="mb-1">Отсортированный массив</p>
+          <div className="flex flex-wrap">
+            {array.map((num, index) => (
+              <span key={index} className="px-2 py-1  bg-gray-200">
+                {num}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div>
         <p>Введите число для поиска</p>
@@ -50,7 +74,7 @@ export function BinarySearchTask() {
           onChange={(e) => setSearchNumber(e.currentTarget.value)}
         />
         <button
-          onClick={binarySearch}
+          onClick={handleSearch}
           className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer"
         >
           Найти число
