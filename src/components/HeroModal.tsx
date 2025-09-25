@@ -16,8 +16,14 @@ export default function HeroModal({ onClose, onSave }: HeroModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-lg w-80">
+    <div
+      className="fixed inset-0 bg-[rgba(0,0,0,0.6)] flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white p-6 rounded shadow-lg"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2 className="text-xl font-bold mb-4">Add Hero</h2>
         <input
           type="text"
