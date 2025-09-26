@@ -3,6 +3,7 @@ import { useState } from "react";
 import ProjectLayout from "./ProjectLayout";
 import locateApartment from "@/functions/getLocateApartment";
 import isPositiveInteger from "@/functions/isPositiveInteger";
+import BuildingHouse from "./BuildingHouse";
 
 type LocateResult = {
   entrance: number;
@@ -77,56 +78,12 @@ export default function SearchAppartment() {
       </div>
 
       {showResult && result && (
-        <div className="flex flex-col items-center mt-6">
-          <div className="flex flex-col items-center">
-            <div
-              className="w-full h-12 bg-gray-500
-                    [clip-path:polygon(20%_0%,_80%_0%,_100%_100%,_0%_100%)]"
-            ></div>
-
-            <div className="flex bg-gray-50 w-full border-b-4 border-gray-500">
-              {Array.from({ length: result.entrance }, (_, entranceIndex) => {
-                const apartmentsPerEntrance = apartments * floors;
-                const offset = entranceIndex * apartmentsPerEntrance;
-
-                return (
-                  <div key={entranceIndex} className="flex flex-col m-2">
-                    {Array.from({ length: floors }, (_, floorIndex) => {
-                      const floor = Number(floorsPerEntrance) - floorIndex;
-                      return (
-                        <div
-                          key={floorIndex}
-                          className="flex justify-around border border-gray-500 w-36"
-                        >
-                          {Array.from(
-                            { length: apartments },
-                            (_, apartIndex) => {
-                              const aptNumber =
-                                offset +
-                                (floor - 1) * apartments +
-                                apartIndex +
-                                1;
-                              const isHighlighted = aptNumber === target;
-                              return (
-                                <div
-                                  key={aptNumber}
-                                  className={`w-8 h-12 flex items-center justify-center border m-1
-                        ${isHighlighted ? "bg-blue-400 " : "bg-gray-200"}`}
-                                >
-                                  {aptNumber}
-                                </div>
-                              );
-                            }
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+        <BuildingHouse
+          entrances={result.entrance}
+          floors={floors}
+          apartmentsPerFloor={apartments}
+          targetApartment={target}
+        />
       )}
     </ProjectLayout>
   );
