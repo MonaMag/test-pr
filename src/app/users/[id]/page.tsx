@@ -82,6 +82,7 @@ export default function EditHeroPage() {
       {isConfirmOpen && (
         <Modal
           title="Delete Hero"
+          onClose={() => setIsConfirmOpen(false)}
           actions={
             <>
               <button
