@@ -24,8 +24,6 @@ export default function SearchAppartment() {
   const apartments = Number(apartmentsPerFloor);
   const target = Number(apartmentNumber);
 
-  console.log({ floors, apartments, target, result });
-
   const handleSearch = () => {
     if (![floors, apartments, target].every(isPositiveInteger)) {
       setError("Введите корректные целые числа больше 0");

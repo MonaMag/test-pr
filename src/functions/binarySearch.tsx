@@ -5,7 +5,7 @@ export default function binarySearch(arr: number[], num: number) {
 
     while (left <= right) {
       steps++;
-      const mid = Math.floor(left + right) / 2;
+      const mid = Math.floor((left + right) / 2);
 
       if (arr[mid] === num) return { index: mid, steps };
       if (arr[mid] < num) left = mid + 1;
