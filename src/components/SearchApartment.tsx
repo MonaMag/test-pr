@@ -36,6 +36,7 @@ export default function SearchAppartment() {
     setError("");
     setResult(locateApartment(apartments, floors, target));
     setShowResult(true);
+  };
 
   return (
     <ProjectLayout title="Search Apartment" result={result}>
