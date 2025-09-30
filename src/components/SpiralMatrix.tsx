@@ -63,7 +63,7 @@ export default function SpiralMatrix() {
         {error && <div className="text-red-500">{error}</div>}
 
         {matrix.length > 0 && (
-          <div className="flex flex-col w-fit px-2 border-x-2 rounded">
+          <div className="flex flex-col w-fit px-2 border-x-1 rounded">
             {matrix.map((row, r) => (
               <div
                 key={r}
