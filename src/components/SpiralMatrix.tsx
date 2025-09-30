@@ -5,26 +5,31 @@ export default function SpiralMatrix() {
   const [size, setSize] = useState<number | undefined>(undefined);
   const [matrix, setMatrix] = useState<number[][]>([]);
   const [result, setResult] = useState<Record<string, number>>({});
-
-  console.log(matrix.flat());
+  const [error, setError] = useState<string>("");
 
   const craetMatrix = () => {
-    const matr: number[][] = [];
-    let value = 1;
-    if (size) {
-      for (let i = 0; i <= size - 1; i++) {
-        const currentRow = [];
-
-        for (let j = 0; j <= size - 1; j++) {
-          currentRow.push(value++);
-        }
-        matr.push(currentRow);
-      }
-      console.log(matrix);
-      setMatrix(matr);
-      setSize(undefined);
-      return matrix;
+    if (!size || size % 2 === 0) {
+      setError("Размер матрицы должен быть нечётным числом!");
+      setMatrix([]);
+      return;
     }
+
+    const matr: number[][] = [];
+
+    for (let i = 0; i <= size - 1; i++) {
+      const currentRow = [];
+
+      for (let j = 0; j <= size - 1; j++) {
+        const rundomNumbres = Math.floor(Math.random() * 100);
+        currentRow.push(rundomNumbres);
+      }
+      matr.push(currentRow);
+    }
+    console.log(matrix);
+    setMatrix(matr);
+    setSize(undefined);
+    setError("");
+    return matrix;
   };
 
   const spiralCounter = () => {
@@ -55,6 +60,7 @@ export default function SpiralMatrix() {
             Creat
           </button>
         </div>
+        {error && <div className="text-red-500">{error}</div>}
 
         {matrix.length > 0 && (
           <div className="flex flex-col w-fit px-2 border-x-2 rounded">
