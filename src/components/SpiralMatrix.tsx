@@ -4,13 +4,14 @@ import ProjectLayout from "./ProjectLayout";
 export default function SpiralMatrix() {
   const [size, setSize] = useState<number | undefined>(undefined);
   const [matrix, setMatrix] = useState<number[][]>([]);
-  const [result, setResult] = useState<Record<string, number>>({});
+  const [result, setResult] = useState<number[]>([]);
   const [error, setError] = useState<string>("");
 
   const craetMatrix = () => {
     if (!size || size % 2 === 0) {
       setError("Размер матрицы должен быть нечётным числом!");
       setMatrix([]);
+
       return;
     }
 
@@ -25,19 +26,65 @@ export default function SpiralMatrix() {
       }
       matr.push(currentRow);
     }
-    console.log(matrix);
+
     setMatrix(matr);
     setSize(undefined);
     setError("");
+    setResult([]);
     return matrix;
   };
 
-  const spiralCounter = () => {
-    return {};
-  };
+  function spiralCounter(matrix: number[][]): number[] {
+    const n = matrix.length;
+    if (n === 0) return [];
+
+    const result: number[] = [];
+    const center = Math.floor(n / 2);
+
+    const x = center;
+    const y = center;
+    result.push(matrix[y][x]);
+
+    let leftIn = center;
+    let rightIn = center;
+    let upIn = center;
+    let downIn = center;
+
+    let dir: "L" | "D" | "R" | "U" = "L";
+
+    while (result.length < n * n) {
+      if (dir === "L") {
+        leftIn--;
+        for (let x = rightIn - 1; x >= leftIn; x--) {
+          if (x >= 0) result.push(matrix[upIn][x]);
+        }
+        dir = "D";
+      } else if (dir === "D") {
+        downIn++;
+        for (let y = upIn + 1; y <= downIn; y++) {
+          if (y < n) result.push(matrix[y][leftIn]);
+        }
+        dir = "R";
+      } else if (dir === "R") {
+        rightIn++;
+        for (let x = leftIn + 1; x <= rightIn; x++) {
+          if (x < n) result.push(matrix[downIn][x]);
+        }
+        dir = "U";
+      } else if (dir === "U") {
+        upIn--;
+        for (let y = downIn - 1; y >= upIn; y--) {
+          if (y >= 0) result.push(matrix[y][rightIn]);
+        }
+        dir = "L";
+      }
+    }
+
+    return result;
+  }
 
   const handleCount = () => {
-    setResult(spiralCounter());
+    setResult(spiralCounter(matrix));
   };
 
   return (
