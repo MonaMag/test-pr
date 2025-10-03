@@ -10,9 +10,15 @@ export default function RectIntersection() {
   const [bLeftBottom, setBLeftBottom] = useState("");
   const [bRightTop, setBRightTop] = useState("");
   const [result, setResult] = useState<number[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const inputDataTransform = (inputData: string): [number, number] | null => {
     const coordinates = inputData.split(",").map((p) => Number(p.trim()));
+
+    if (coordinates.length !== 2 || coordinates.some(isNaN)) {
+      return null;
+    }
+
     return [coordinates[0], coordinates[1]];
   };
 
@@ -24,6 +30,7 @@ export default function RectIntersection() {
 
     if (!A1 || !A2 || !B1 || !B2) {
       setResult(null);
+      setError("Некорректный ввод. Нужно два числа через запятую");
       return;
     }
 
@@ -48,14 +55,20 @@ export default function RectIntersection() {
             <input
               type="text"
               value={aLeftBottom}
-              onChange={(e) => setALeftBottom(e.currentTarget.value)}
+              onChange={(e) => {
+                setALeftBottom(e.currentTarget.value);
+                setError(null);
+              }}
               placeholder="Левый нижний угол"
               className="w-full border border-green-600 rounded p-2 text-xs"
             />
             <input
               type="text"
               value={aRightTop}
-              onChange={(e) => setARightTop(e.currentTarget.value)}
+              onChange={(e) => {
+                setARightTop(e.currentTarget.value);
+                setError(null);
+              }}
               placeholder="Правый верхний угол"
               className="w-full border border-green-600 rounded p-2 text-xs"
             />
@@ -70,20 +83,26 @@ export default function RectIntersection() {
             <input
               type="text"
               value={bLeftBottom}
-              onChange={(e) => setBLeftBottom(e.currentTarget.value)}
+              onChange={(e) => {
+                setBLeftBottom(e.currentTarget.value);
+                setError(null);
+              }}
               placeholder="Левый нижний угол"
               className="w-full border border-green-600 rounded p-2 text-xs"
             />
             <input
               type="text"
               value={bRightTop}
-              onChange={(e) => setBRightTop(e.currentTarget.value)}
+              onChange={(e) => {
+                setBRightTop(e.currentTarget.value);
+                setError(null);
+              }}
               placeholder="Правый верхний угол"
               className="w-full border border-green-600 rounded p-2 text-xs"
             />
           </div>
         </div>
-
+        {error && <p className="text-red-600 text-sm">{error}</p>}
         <button
           onClick={handleIntersection}
           className="px-4 py-2 bg-green-600 text-white rounded cursor-pointer w-full"
