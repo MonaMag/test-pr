@@ -5,6 +5,13 @@ import { makeRectangle } from "@/functions/makeRectangle";
 
 export type RectDataType = [number, number, number, number];
 
+const toSvgRect = ([x1, y1, x2, y2]: RectDataType) => ({
+  x: x1,
+  y: 300 - y2,
+  width: x2 - x1,
+  height: y2 - y1,
+});
+
 export default function RectIntersection() {
   const [aLeftBottom, setALeftBottom] = useState("");
   const [aRightTop, setARightTop] = useState("");
@@ -12,34 +19,6 @@ export default function RectIntersection() {
   const [bRightTop, setBRightTop] = useState("");
   const [result, setResult] = useState<RectDataType | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  //   const inputDataTransform = (inputData: string): [number, number] | null => {
-  //     const coordinates = inputData.split(",").map((p) => Number(p.trim()));
-
-  //     if (coordinates.length !== 2 || coordinates.some(isNaN)) {
-  //       return null;
-  //     }
-
-  //     return [coordinates[0], coordinates[1]];
-  //   };
-
-  //   const handleIntersection = () => {
-  //     const A1 = inputDataTransform(aLeftBottom);
-  //     const A2 = inputDataTransform(aRightTop);
-  //     const B1 = inputDataTransform(bLeftBottom);
-  //     const B2 = inputDataTransform(bRightTop);
-
-  //     if (!A1 || !A2 || !B1 || !B2) {
-  //       setResult(null);
-  //       setError("Некорректный ввод. Нужно два числа через запятую");
-  //       return;
-  //     }
-
-  //     const rectA: RectDataType = [A1[0], A1[1], A2[0], A2[1]];
-  //     const rectB: RectDataType = [B1[0], B1[1], B2[0], B2[1]];
-
-  //     setResult(intersectRect(rectA, rectB));
-  //   };
 
   const handleIntersection = () => {
     const rectA = makeRectangle(aLeftBottom, aRightTop);
@@ -54,6 +33,12 @@ export default function RectIntersection() {
     setResult(intersectRect(rectA, rectB));
     setError(null);
   };
+
+  const rectA = makeRectangle(aLeftBottom, aRightTop);
+  const rectB = makeRectangle(bLeftBottom, bRightTop);
+  const svgRectA = rectA ? toSvgRect(rectA) : null;
+  const svgRectB = rectB ? toSvgRect(rectB) : null;
+  const svgIntersect = result ? toSvgRect(result) : null;
 
   return (
     <ProjectLayout title="Find rectangles intersection" result={result}>
@@ -122,6 +107,19 @@ export default function RectIntersection() {
           </div>
         </div>
         {error && <p className="text-red-600 text-sm">{error}</p>}
+
+        <svg
+          width={300}
+          height={300}
+          viewBox="0 0 300 300"
+          style={{ border: "1px solid black" }}
+        >
+          {svgRectA && <rect {...svgRectA} fill="blue" fillOpacity={0.5} />}
+          {svgRectB && <rect {...svgRectB} fill="red" fillOpacity={0.5} />}
+          {svgIntersect && (
+            <rect {...svgIntersect} fill="green" fillOpacity={0.5} />
+          )}
+        </svg>
         <button
           onClick={handleIntersection}
           className="px-4 py-2 bg-green-600 text-white rounded cursor-pointer w-full"
