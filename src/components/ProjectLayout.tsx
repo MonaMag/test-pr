@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 type ProjectLayoutProps = {
   title: string;
-  result: Record<string, unknown> | null;
+  result: Record<string, unknown> | number [] | null;
   children: ReactNode;
 };
 
