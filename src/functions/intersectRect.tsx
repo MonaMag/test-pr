@@ -1,7 +1,7 @@
 import { RectDataType } from "@/components/RectIntersection";
 
 
-export function intersectRect(a: RectDataType, b: RectDataType) {
+export function intersectRect(a: RectDataType, b: RectDataType): RectDataType | null  {
   const [x1, y1, x2, y2] = a;
   const [n1, m1, n2, m2] = b;
 
