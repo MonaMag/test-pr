@@ -5,11 +5,13 @@ import { makeRectangle } from "@/functions/makeRectangle";
 
 export type RectDataType = [number, number, number, number];
 
+const SCALE = 10;
+
 const toSvgRect = ([x1, y1, x2, y2]: RectDataType) => ({
-  x: x1,
-  y: 300 - y2,
-  width: x2 - x1,
-  height: y2 - y1,
+  x: x1 * SCALE,
+  y: 300 - y2 * SCALE,
+  width: (x2 - x1) * SCALE,
+  height: (y2 - y1) * SCALE,
 });
 
 export default function RectIntersection() {
